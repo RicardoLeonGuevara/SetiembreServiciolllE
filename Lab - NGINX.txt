@@ -1,0 +1,64 @@
+Laboratorio NGINX
+--------------------
+1. Ingresar al servidor (Cyberops) por putty
+
+2. Editar el archivo de configuracion, cambiando la linea 39 de ese archivo por el puerto que deseamos (de 81 a 8080)
+
+sudo nano -l /etc/nginx/custom_server.conf                      
+--------------------------------------
+  1
+  2 #user html;
+  3 worker_processes 1;
+  4
+  5 #error_log logs/error.log;
+  6 #error_log logs/error.log notice;
+  7 #error_log logs/error.log info;
+  8
+  9 #pid logs/nginx.pid;
+ 10
+ 11
+ 12 events {
+ 13 worker_connections 1024;
+ 14 }
+ 15
+ 16
+ 17 http {
+ 18 include mime.types;
+ 19 default_type application/octet-stream;
+ 20
+ 21 #log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+ 22 # '$status $body_bytes_sent "$http_referer" '
+ 23 # '"$http_user_agent" "$http_x_forwarded_for"';
+ 24
+ 25 #access_log logs/access.log main;
+ 26
+ 27 sendfile on;
+ 28 #tcp_nopush on;
+ 29
+ 30 #keepalive_timeout 0;
+ 31 keepalive_timeout 65;
+ 32
+ 33 #gzip on;
+ 34
+ 35 types_hash_max_size 4096;
+ 36 server_names_hash_bucket_size 128;
+ 37
+ 38 server {
+ 39 listen 81;
+ 40 server_name localhost;
+ 41
+ 42 #charset koi8-r;
+ 43
+ 44 #access_log logs/host.access.log main;
+ 45
+ 46 location / {
+ 47 root /usr/share/nginx/html;
+ 48 index index.html index.htm;
+ 49 }
+<Some output omitted>
+----------------------------------------------
+3. A continuación, diríjase a la línea 47 y cambie la ruta de /usr/share/nginx/html/ a /usr/share/nginx/html/text_ed_lab/.
+3. Guardar con control + O y salir con control + X
+4. Aplicar el comando nginx para inciar el servicio Web 
+sudo nginx -c custom_server.conf
+5.Verificar desde windows pon la ip del servidor
